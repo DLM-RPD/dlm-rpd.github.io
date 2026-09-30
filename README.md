@@ -1,80 +1,59 @@
-# Academic Project Page Template
+# RPD project website
 
-> **Update (September 2025)**: This template has been modernized with better design, SEO, and mobile support. For the original version, see the [original-version branch](https://github.com/eliahuhorwitz/Academic-project-page-template/tree/original-version).
+Project page for **Reliable Parallel Decoding in Masked Diffusion Language Models** (arXiv:2609.36452).
 
-A clean, responsive template for academic project pages.
+- Website: https://dlm-rpd.github.io/
+- Paper: https://arxiv.org/abs/2609.36452
+- GitHub Pages source: **master**, **/ (root)**. No branch rename or build step is needed.
+- Research code is not publicly released; the page intentionally has no Code button.
 
+## Preview locally
 
-Example project pages built using this template are:
-- https://horwitz.ai/probex
-- https://vision.huji.ac.il/probegen
-- https://horwitz.ai/mother
-- https://horwitz.ai/spectral_detuning
-- https://vision.huji.ac.il/ladeda
-- https://vision.huji.ac.il/dsire
-- https://horwitz.ai/podd
-- https://dreamix-video-editing.github.io
-- https://horwitz.ai/conffusion
-- https://horwitz.ai/3d_ads/
-- https://vision.huji.ac.il/ssrl_ad
-- https://vision.huji.ac.il/deepsim
+From this directory:
 
+```sh
+python -m http.server 8765 --bind 127.0.0.1
+```
 
+Open http://127.0.0.1:8765/. If working over SSH, forward port 8765 to your computer. Opening `index.html` directly with a `file:` URL prevents browsers from fetching the trace JSON.
 
-## Start using the template
-To start using the template click on `Use this Template`.
+## Content
 
-The template uses html for controlling the content and css for controlling the style. 
-To edit the websites contents edit the `index.html` file. It contains different HTML "building blocks", use whichever ones you need and comment out the rest.  
+- `index.html`: authors, links, abstract, method, static result fallback, citation, and metadata.
+- `static/css/rpd.css`: responsive layout, including mobile and reduced-motion preferences.
+- `static/js/rpd.js`: trajectory player and all eight Table 1 result cells.
+- `static/traces/examples.json`: exact recorded token IDs, token text, commitment steps, prompt token IDs/hashes, model revisions, and source record checksums.
+- `static/images/method.svg`: Figure 3 from the public arXiv v1 HTML assets.
+- `static/images/social_preview.png`: social sharing image.
 
-**IMPORTANT!** Make sure to replace the `favicon.ico` under `static/images/` with one of your own, otherwise your favicon is going to be a dreambooth image of me.
+Author order and homepage URLs follow the authors' supplied links. The paper link targets the public arXiv PDF, not the local anonymous submission. Website code is separate from research implementation code.
 
-## What's New
+## Trace semantics
 
-- Modern, clean design with better mobile support
-- Improved SEO with proper meta tags and structured data
-- Performance improvements (lazy loading, optimized assets)
-- More Works dropdown
-- Copy button for BibTeX citations
-- Better accessibility
+Examples use the first test item (doc_id=0) for LLaDA GSM8K, LLaDA HumanEval, and Dream GSM8K. They were not selected by searching for maximum speedups. Default traces come from H204, Fast-dLLM from H205 (LLaDA) / H206 (Dream), and RPD from H426. Prompt hashes match within each comparison. Exports validate all 256 positions, recorded commitment steps, final token text, and the RPD configuration. They contain no filesystem paths, model weights, or research implementation source.
 
-## Components
+The shared playback clock counts backbone forward passes. It is **not a measured wall-time animation**. A method holds its final state once completed. All 256 canvas positions remain represented, including positions after EOS; the text view hides terminal tokens and subsequent content. The website does not infer latency or TPS from the archived per-step records. Accurate wall-time animation requires additional per-step timestamps with the final optimized implementation.
 
-- Teaser video
-- Image carousel
-- YouTube video embedding
-- Video carousel
-- PDF poster viewer
-- BibTeX citation
+Full RPD uses `candidate_region=full_canvas`, `candidate_window_limit=None`, `fallback_window=32`, and entropy budget 4 nats. Only fallback is restricted to the 32 physical positions starting at the leftmost remaining mask. The candidate-region check confirms an eligible candidate at position 40 is admitted. RPD-block remains separately labeled in the result table. Baseline block settings are preserved.
 
-## Customization
+Throughput and quality values are transcribed from Table 1 in RPD.pdf / arXiv v1, keeping full-test results separate from individual illustrative trajectories. The 6.1× headline is the rounded MBPP LLaDA throughput ratio 35.92 / 5.93 for full RPD versus Default. Code snippets in trajectories are displayed as text, never executed by the page.
 
-The HTML file has TODO comments showing what to replace:
+## Publishing
 
-- Paper title, authors, institution, conference
-- Links (arXiv, GitHub, etc.)
-- Abstract and descriptions  
-- Videos, images, and PDFs
-- Related works in the dropdown
-- Meta tags for SEO and social sharing
+This checkout tracks `DLM-RPD/dlm-rpd.github.io`, branch `master`. Pushing website changes to the configured branch publishes the site through GitHub Pages. `.nojekyll` preserves direct static hosting. No authentication tokens are stored in the website.
 
-### Meta Tags
-The template includes meta tags for better search engine visibility and social media sharing. These appear in the `<head>` section and help with:
-- Google Scholar indexing
-- Social media previews (Twitter, Facebook, LinkedIn)
-- Search engine optimization
+## Credits
 
-Create a 1200x630px social preview image at `static/images/social_preview.png`.
+Adapted from [Academic Project Page Template](https://github.com/eliahuhorwitz/Academic-project-page-template), which builds on [Nerfies](https://nerfies.github.io/). Retain the template attribution and its [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) notice. The template's license does not assign a new license to the paper or third-party benchmark data. Bulma CSS is retained from the original template.
 
-## Tips
+## GIF exports
 
-- Compress images with [TinyPNG](https://tinypng.com)
-- Use YouTube for large videos (>10MB)  
-- Replace the favicon in `static/images/`
-- Works with GitHub Pages
+Three downloadable GIFs are in `static/videos/`. They preserve the same forward-index clock, hold completed methods, and include every decoding step. The short question shown in each GIF is a summary; the website trace JSON contains the exact prompts.
 
-## Acknowledgments
-Parts of this project page were adopted from the [Nerfies](https://nerfies.github.io/) page.
+To regenerate with Pillow and DejaVu fonts installed:
 
-## Website License
-<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+```sh
+python tools/render_gifs.py
+```
+
+Pass a case ID such as `llada-gsm8k-0` to regenerate just that example.
