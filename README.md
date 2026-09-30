@@ -5,7 +5,7 @@ Project page for **Reliable Parallel Decoding in Masked Diffusion Language Model
 - Website: https://dlm-rpd.github.io/
 - Paper: https://arxiv.org/abs/2609.36452
 - GitHub Pages source: **master**, **/ (root)**. No branch rename or build step is needed.
-- Research code is not publicly released; the page intentionally has no Code button.
+- Code: https://github.com/Zhenghao-He/RPD (linked from the page's Code button).
 
 ## Preview locally
 
