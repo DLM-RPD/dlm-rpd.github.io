@@ -30,7 +30,7 @@ Author order and homepage URLs follow the authors' supplied links. The paper lin
 
 ## Trace semantics
 
-Examples use the first test item (doc_id=0) for LLaDA GSM8K, LLaDA HumanEval, and Dream GSM8K. They were not selected by searching for maximum speedups. Default traces come from H204, Fast-dLLM from H205 (LLaDA) / H206 (Dream), and RPD from H426. Prompt hashes match within each comparison. Exports validate all 256 positions, recorded commitment steps, final token text, and the RPD configuration. They contain no filesystem paths, model weights, or research implementation source.
+LLaDA GSM8K and LLaDA HumanEval use test item 0. Dream GSM8K uses test item 51, selected to illustrate an RPD advantage: 81 forward passes versus Fast-dLLM’s 127 and Default’s 256. All three give the correct answer, 5, under the current GSM8K evaluator. The Dream example is favorable, not an aggregate performance estimate; effective response lengths differ (109 RPD, 255 Fast-dLLM, 118 Default tokens), while every method fills the same 256-position canvas. Default traces come from H204, Fast-dLLM from H205 (LLaDA) / H206 (Dream), and RPD from H426. Prompt hashes match within each comparison. Exports validate all 256 positions, recorded commitment steps, final token text, and the RPD configuration. They contain no filesystem paths, model weights, or research implementation source.
 
 The shared playback clock counts backbone forward passes. It is **not a measured wall-time animation**. A method holds its final state once completed. All 256 canvas positions remain represented, including positions after EOS; the text view hides terminal tokens and subsequent content. The website does not infer latency or TPS from the archived per-step records. Accurate wall-time animation requires additional per-step timestamps with the final optimized implementation.
 
@@ -57,3 +57,5 @@ python tools/render_gifs.py
 ```
 
 Pass a case ID such as `llada-gsm8k-0` to regenerate just that example.
+
+Button icons use Font Awesome Free 6.7.2 (PDF and GitHub; CC BY 4.0 icons) and the arXiv glyph from the Academicons font (SIL OFL 1.1), embedded as SVG with source attribution.

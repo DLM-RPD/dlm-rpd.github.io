@@ -137,7 +137,7 @@ async function initReplay() {
     if (step >= maxStep()) { step = 0; renderStep(); }
     playing = true; lastTime = 0; accumulator = 0;
     byId('play').textContent = 'Pause'; byId('play').setAttribute('aria-pressed', 'true');
-    byId('replay-status').textContent = 'Playing recorded forward passes. Playback speed is illustrative, not measured latency.';
+    byId('replay-status').textContent = 'Playing.';
     frame = requestAnimationFrame(tick);
   }
 
@@ -200,6 +200,6 @@ async function initReplay() {
     observer.observe(byId('method-panels'));
   }
 }
-initReplay().catch(error => {
-  byId('replay-status').textContent = `${error.message} Serve this page over HTTP, or download the trajectory JSON below.`;
+initReplay().catch(() => {
+  byId('replay-status').textContent = 'The replay could not be loaded. Please refresh the page.';
 }).finally(() => byId('replay').setAttribute('aria-busy', 'false'));
