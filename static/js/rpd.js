@@ -36,7 +36,7 @@ function renderResults() {
   const taskName = byId('result-task').selectedOptions[0].textContent;
   byId('results-caption').textContent = `${modelName} · ${taskName}`;
   byId('results-body').replaceChildren(...rows.map((values, i) => {
-    const tr = node('tr', methods[i] === 'RPD' ? 'rpd-row' : '');
+    const tr = node('tr', ['RPD-block', 'RPD'].includes(methods[i]) ? 'rpd-row' : '');
     const heading = node('th', '', methods[i]); heading.scope = 'row'; tr.append(heading);
     values.forEach(value => tr.append(node('td', '', value.toFixed(2))));
     const td = node('td', 'speed-cell');
